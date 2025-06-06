@@ -1,11 +1,10 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
   Home, BarChart3, FlaskConical, TrendingUp, 
   Settings, Shield, Users, LogOut, 
-  FileText, Calendar, Bell
+  FileText, Calendar, Bell, Microscope
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -20,6 +19,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPage, onPageChange, isCollapse
 
   const navigationItems = [
     { id: 'home', label: 'Início', icon: Home, roles: ['admin', 'user', 'analyst'] },
+    { id: 'client-analyses', label: 'Análises', icon: Microscope, roles: ['admin', 'user', 'analyst'] },
     { id: 'quality-metrics', label: 'Métricas', icon: BarChart3, roles: ['admin', 'user', 'analyst'] },
     { id: 'control-charts', label: 'Cartas de Controle', icon: TrendingUp, roles: ['admin', 'analyst'] },
     { id: 'reference-materials', label: 'Materiais de Ref.', icon: FlaskConical, roles: ['admin', 'analyst'] },

@@ -16,6 +16,7 @@ import AdminPanel from "@/components/AdminPanel";
 import UserSettings from "@/components/UserSettings";
 import Sidebar from "@/components/Sidebar";
 import QualityMetrics from "@/components/QualityMetrics";
+import ClientAnalyses from "@/components/ClientAnalyses";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -51,6 +52,8 @@ const AppContent = () => {
         return <UserSettings />;
       case 'quality-metrics':
         return <QualityMetrics />;
+      case 'client-analyses':
+        return <ClientAnalyses />;
       case 'control-charts':
       case 'reference-materials':
       case 'reports':
