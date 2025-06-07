@@ -65,27 +65,27 @@ const QualityMetrics = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-semibold text-slate-800">Métricas de Qualidade</h2>
+    <div className="space-y-4 sm:space-y-6 p-4 sm:p-6">
+      <h2 className="text-xl sm:text-2xl font-semibold text-slate-800">Métricas de Qualidade</h2>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {metrics.map((metric, index) => (
           <Card key={index} className={`shadow-lg border-0 ${getStatusColor(metric.status)} backdrop-blur-sm`}>
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-medium text-slate-700">
+                <CardTitle className="text-sm font-medium text-slate-700 leading-tight">
                   {metric.title}
                 </CardTitle>
                 {getTrendIcon(metric.trend)}
               </div>
             </CardHeader>
             <CardContent className="space-y-3">
-              <div className="text-2xl font-bold text-slate-800">
+              <div className="text-xl sm:text-2xl font-bold text-slate-800">
                 {metric.value}
               </div>
               
               <div className="space-y-2">
-                <div className="flex justify-between text-xs text-slate-600">
+                <div className="flex justify-between items-center text-xs text-slate-600">
                   <span>Meta: {metric.target}</span>
                   <Badge variant="outline" className="text-xs">
                     {metric.status === 'good' ? 'Conforme' : 'Atenção'}
@@ -98,7 +98,7 @@ const QualityMetrics = () => {
                 />
               </div>
               
-              <p className="text-xs text-slate-600 mt-2">
+              <p className="text-xs text-slate-600 mt-2 leading-relaxed">
                 {metric.description}
               </p>
             </CardContent>

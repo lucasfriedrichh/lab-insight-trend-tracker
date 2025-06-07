@@ -67,18 +67,32 @@ const AppContent = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
+    <div className="min-h-screen bg-slate-50 flex w-full">
+      {/* Mobile Overlay */}
+      {!sidebarCollapsed && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setSidebarCollapsed(true)}
+        />
+      )}
+
       {/* Sidebar */}
-      <Sidebar
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-        isCollapsed={sidebarCollapsed}
-      />
+      <div className={`
+        fixed lg:static inset-y-0 left-0 z-50 lg:z-auto
+        transform transition-transform duration-300 ease-in-out
+        ${sidebarCollapsed ? '-translate-x-full lg:translate-x-0' : 'translate-x-0'}
+      `}>
+        <Sidebar
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          isCollapsed={false}
+        />
+      </div>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
-        <header className="bg-white border-b border-slate-200 px-6 py-4">
+        <header className="bg-white border-b border-slate-200 px-4 sm:px-6 py-4 sticky top-0 z-30">
           <div className="flex items-center justify-between">
             <Button
               variant="ghost"
@@ -89,13 +103,17 @@ const AppContent = () => {
               {sidebarCollapsed ? <Menu size={20} /> : <X size={20} />}
             </Button>
             
-            <div className="text-sm text-slate-600">
+            <div className="text-xs sm:text-sm text-slate-600 hidden sm:block">
               {new Date().toLocaleDateString('pt-BR', { 
                 weekday: 'long', 
                 year: 'numeric', 
                 month: 'long', 
                 day: 'numeric' 
               })}
+            </div>
+
+            <div className="text-xs text-slate-600 sm:hidden">
+              {new Date().toLocaleDateString('pt-BR')}
             </div>
           </div>
         </header>

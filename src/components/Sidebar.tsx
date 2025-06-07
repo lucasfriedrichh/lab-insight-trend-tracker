@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
@@ -45,64 +46,54 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPage, onPageChange, isCollapse
     <Button
       variant={currentPage === item.id ? "default" : "ghost"}
       className={cn(
-        "w-full justify-start gap-3 h-12",
-        isCollapsed && "px-2",
+        "w-full justify-start gap-3 h-10 sm:h-12 text-sm",
         currentPage === item.id && "bg-primary text-primary-foreground"
       )}
       onClick={onClick}
     >
-      <item.icon size={20} />
-      {!isCollapsed && <span>{item.label}</span>}
+      <item.icon size={18} className="sm:w-5 sm:h-5" />
+      <span className="truncate">{item.label}</span>
     </Button>
   );
 
   return (
-    <div className={cn(
-      "bg-white border-r border-slate-200 flex flex-col h-full transition-all duration-300",
-      isCollapsed ? "w-16" : "w-64"
-    )}>
+    <div className="w-64 sm:w-72 bg-white border-r border-slate-200 flex flex-col h-full">
       {/* Header */}
-      <div className="p-4 border-b border-slate-200">
+      <div className="p-3 sm:p-4 border-b border-slate-200">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-            <FlaskConical className="w-6 h-6 text-white" />
+          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary rounded-lg flex items-center justify-center">
+            <FlaskConical className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           </div>
-          {!isCollapsed && (
-            <div>
-              <h2 className="font-bold text-slate-800">ISO 17025</h2>
-              <p className="text-xs text-slate-600">Qualidade Lab</p>
-            </div>
-          )}
+          <div>
+            <h2 className="font-bold text-slate-800 text-sm sm:text-base">ISO 17025</h2>
+            <p className="text-xs text-slate-600">Qualidade Lab</p>
+          </div>
         </div>
       </div>
 
       {/* User info */}
-      <div className="p-4 border-b border-slate-200">
+      <div className="p-3 sm:p-4 border-b border-slate-200">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-primary font-semibold">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent rounded-full flex items-center justify-center text-primary font-semibold text-sm">
             {user?.name?.charAt(0)}
           </div>
-          {!isCollapsed && (
-            <div className="flex-1 min-w-0">
-              <p className="font-medium text-slate-800 truncate">{user?.name}</p>
-              <p className="text-xs text-slate-600 truncate">
-                {user?.role === 'admin' ? 'Administrador' : 
-                 user?.role === 'analyst' ? 'Analista' : 'Usuário'}
-              </p>
-            </div>
-          )}
+          <div className="flex-1 min-w-0">
+            <p className="font-medium text-slate-800 truncate text-sm sm:text-base">{user?.name}</p>
+            <p className="text-xs text-slate-600 truncate">
+              {user?.role === 'admin' ? 'Administrador' : 
+               user?.role === 'analyst' ? 'Analista' : 'Usuário'}
+            </p>
+          </div>
         </div>
       </div>
 
       {/* Navigation */}
-      <div className="flex-1 p-4 space-y-6 overflow-y-auto">
+      <div className="flex-1 p-3 sm:p-4 space-y-4 sm:space-y-6 overflow-y-auto">
         {/* Main navigation */}
         <div className="space-y-2">
-          {!isCollapsed && (
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
-              Principal
-            </p>
-          )}
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
+            Principal
+          </p>
           {navigationItems.map((item) => (
             canAccess(item.roles) && (
               <NavItem
@@ -117,11 +108,9 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPage, onPageChange, isCollapse
         {/* Admin section */}
         {user?.role === 'admin' && (
           <div className="space-y-2">
-            {!isCollapsed && (
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
-                Administração
-              </p>
-            )}
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
+              Administração
+            </p>
             {adminItems.map((item) => (
               canAccess(item.roles) && (
                 <NavItem
@@ -136,11 +125,9 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPage, onPageChange, isCollapse
 
         {/* User section */}
         <div className="space-y-2">
-          {!isCollapsed && (
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
-              Usuário
-            </p>
-          )}
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
+            Usuário
+          </p>
           {userItems.map((item) => (
             canAccess(item.roles) && (
               <NavItem
@@ -154,14 +141,14 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPage, onPageChange, isCollapse
       </div>
 
       {/* Logout */}
-      <div className="p-4 border-t border-slate-200">
+      <div className="p-3 sm:p-4 border-t border-slate-200">
         <Button
           variant="outline"
-          className="w-full justify-start gap-3 h-12 text-red-600 border-red-200 hover:bg-red-50"
+          className="w-full justify-start gap-3 h-10 sm:h-12 text-red-600 border-red-200 hover:bg-red-50 text-sm"
           onClick={logout}
         >
-          <LogOut size={20} />
-          {!isCollapsed && <span>Sair</span>}
+          <LogOut size={18} className="sm:w-5 sm:h-5" />
+          <span>Sair</span>
         </Button>
       </div>
     </div>
