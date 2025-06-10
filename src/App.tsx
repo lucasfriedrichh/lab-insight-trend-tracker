@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,6 +7,7 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import Reports from "@/components/Reports";
 
 // Componentes
 import LoginScreen from "@/components/LoginScreen";
@@ -54,9 +54,10 @@ const AppContent = () => {
         return <QualityMetrics />;
       case 'client-analyses':
         return <ClientAnalyses />;
+      case 'reports':
+        return <Reports />;
       case 'control-charts':
       case 'reference-materials':
-      case 'reports':
       case 'calendar':
       case 'notifications':
       case 'user-management':
