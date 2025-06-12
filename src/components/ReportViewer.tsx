@@ -13,7 +13,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Grid,
   Divider
 } from '@mui/material';
 import {
@@ -189,32 +188,32 @@ export const ReportViewer: React.FC<ReportViewerProps> = ({ method, assay, onBac
               </Box>
             </Box>
             
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={4}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
                 <Typography variant="caption" sx={{ textTransform: 'uppercase', fontWeight: 'bold', color: 'text.secondary' }}>
                   Método
                 </Typography>
                 <Typography variant="body1" sx={{ fontWeight: 'medium', color: 'text.primary' }}>
                   {method.name}
                 </Typography>
-              </Grid>
-              <Grid item xs={12} md={4}>
+              </div>
+              <div>
                 <Typography variant="caption" sx={{ textTransform: 'uppercase', fontWeight: 'bold', color: 'text.secondary' }}>
                   Ensaio
                 </Typography>
                 <Typography variant="body1" sx={{ fontWeight: 'medium', color: 'text.primary' }}>
                   {assay.name}
                 </Typography>
-              </Grid>
-              <Grid item xs={12} md={4}>
+              </div>
+              <div>
                 <Typography variant="caption" sx={{ textTransform: 'uppercase', fontWeight: 'bold', color: 'text.secondary' }}>
                   Data
                 </Typography>
                 <Typography variant="body1" sx={{ fontWeight: 'medium', color: 'text.primary' }}>
                   {new Date().toLocaleDateString('pt-BR')}
                 </Typography>
-              </Grid>
-            </Grid>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
@@ -371,9 +370,9 @@ export const ReportViewer: React.FC<ReportViewerProps> = ({ method, assay, onBac
                     </Box>
                   </Box>
                   
-                  <Grid container spacing={1}>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                     {Object.entries(tool.data).map(([key, value]) => (
-                      <Grid item xs={6} md={3} key={key}>
+                      <div key={key}>
                         <Paper sx={{ p: 1.5, bgcolor: 'white', border: '1px solid #e0e0e0' }}>
                           <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary', textTransform: 'capitalize' }}>
                             {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
@@ -382,9 +381,9 @@ export const ReportViewer: React.FC<ReportViewerProps> = ({ method, assay, onBac
                             {String(value)}
                           </Typography>
                         </Paper>
-                      </Grid>
+                      </div>
                     ))}
-                  </Grid>
+                  </div>
                 </Paper>
               ))}
             </Box>
