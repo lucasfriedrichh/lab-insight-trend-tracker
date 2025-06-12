@@ -1,10 +1,27 @@
 
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArrowLeft, Download, Calendar, FlaskConical, Settings } from 'lucide-react';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+  Chip,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Paper,
+  Grid,
+  Divider
+} from '@mui/material';
+import {
+  ArrowBack,
+  Download,
+  Science,
+  Settings
+} from '@mui/icons-material';
 
 interface Method {
   id: string;
@@ -49,12 +66,12 @@ export const ReportViewer: React.FC<ReportViewerProps> = ({ method, assay, onBac
                 body { font-family: Arial, sans-serif; margin: 20px; }
                 .header { border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
                 .section { margin-bottom: 30px; page-break-inside: avoid; }
-                .section-title { background: #1e40af; color: white; padding: 8px; text-align: center; font-weight: bold; }
+                .section-title { background: #1976d2; color: white; padding: 8px; text-align: center; font-weight: bold; }
                 .data-table { width: 100%; border-collapse: collapse; margin-top: 0; }
                 .data-table th, .data-table td { border: 1px solid #333; padding: 8px; text-align: center; }
-                .data-table th { background-color: #f8fafc; font-weight: bold; }
-                .highlight { background-color: #dcfce7; }
-                .critical { background-color: #fef3c7; }
+                .data-table th { background-color: #f5f5f5; font-weight: bold; }
+                .highlight { background-color: #e8f5e8; }
+                .critical { background-color: #fff3cd; }
                 @media print { body { margin: 0; } }
               </style>
             </head>
@@ -77,7 +94,7 @@ export const ReportViewer: React.FC<ReportViewerProps> = ({ method, assay, onBac
       if (tool.type === 'Espectrometria') {
         sections.push({
           title: 'REPETIBILIDADE',
-          color: 'bg-blue-600',
+          color: '#1976d2',
           data: [
             { parameter: 'Repetibilidade', unit: '(%)', value: '2.47', critical: '' },
             { parameter: 'Repetibilidade', unit: '(%)', value: '3.20', critical: '' },
@@ -89,7 +106,7 @@ export const ReportViewer: React.FC<ReportViewerProps> = ({ method, assay, onBac
 
         sections.push({
           title: 'PRECISÃO INTERNA',
-          color: 'bg-blue-600',
+          color: '#1976d2',
           data: [
             { parameter: 'Precisão intermediária', unit: '(%)', value: '-0.17', critical: '2.36 - Teste t para 7 repetições' },
             { parameter: 'Precisão intermediária', unit: '(%)', value: '-0.15', critical: '' }
@@ -100,7 +117,7 @@ export const ReportViewer: React.FC<ReportViewerProps> = ({ method, assay, onBac
       if (tool.type === 'Medição de pH') {
         sections.push({
           title: 'AMOSTRA CEGA',
-          color: 'bg-blue-600',
+          color: '#1976d2',
           data: [
             { parameter: 'Amostra cega', unit: '(%)', value: '2.77', critical: 'Valor crítico (CV) - Diferença entre a amostra de referência' },
             { parameter: 'Amostra cega', unit: '(%)', value: '0.70', critical: '' },
@@ -118,208 +135,305 @@ export const ReportViewer: React.FC<ReportViewerProps> = ({ method, assay, onBac
   const sections = getToolSections();
 
   return (
-    <div className="space-y-6">
+    <Box sx={{ p: 3, spacing: 3 }}>
       {/* Header com navegação */}
-      <div className="flex items-center justify-between">
-        <Button variant="outline" onClick={onBack} className="gap-2">
-          <ArrowLeft size={16} />
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Button
+          variant="outlined"
+          startIcon={<ArrowBack />}
+          onClick={onBack}
+        >
           Voltar
         </Button>
-        <Button onClick={handleExportPDF} className="gap-2">
-          <Download size={16} />
+        <Button
+          variant="contained"
+          startIcon={<Download />}
+          onClick={handleExportPDF}
+        >
           Exportar PDF
         </Button>
-      </div>
+      </Box>
 
       {/* Conteúdo do relatório */}
-      <div id="report-content" className="space-y-6">
+      <Box id="report-content" sx={{ spacing: 3 }}>
         {/* Cabeçalho do relatório */}
-        <Card className="shadow-lg border-0 bg-gradient-to-r from-primary/5 to-primary/10">
-          <CardHeader className="header">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
-                <FlaskConical className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <CardTitle className="text-xl text-slate-800">Relatório de Análise</CardTitle>
-                <CardDescription className="text-slate-600">
+        <Card 
+          sx={{ 
+            mb: 3,
+            background: 'linear-gradient(45deg, #f5f5f5 30%, #e3f2fd 90%)',
+            boxShadow: 3
+          }}
+        >
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+              <Box 
+                sx={{ 
+                  width: 48, 
+                  height: 48, 
+                  bgcolor: 'primary.main', 
+                  borderRadius: 2, 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center' 
+                }}
+              >
+                <Science sx={{ color: 'white' }} />
+              </Box>
+              <Box>
+                <Typography variant="h5" component="h1" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+                  Relatório de Análise
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
                   ISO 17025 - Laboratório de Qualidade
-                </CardDescription>
-              </div>
-            </div>
+                </Typography>
+              </Box>
+            </Box>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-              <div className="space-y-1">
-                <label className="text-xs font-medium text-slate-500 uppercase">Método</label>
-                <p className="font-medium text-slate-800">{method.name}</p>
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs font-medium text-slate-500 uppercase">Ensaio</label>
-                <p className="font-medium text-slate-800">{assay.name}</p>
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs font-medium text-slate-500 uppercase">Data</label>
-                <p className="font-medium text-slate-800">
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={4}>
+                <Typography variant="caption" sx={{ textTransform: 'uppercase', fontWeight: 'bold', color: 'text.secondary' }}>
+                  Método
+                </Typography>
+                <Typography variant="body1" sx={{ fontWeight: 'medium', color: 'text.primary' }}>
+                  {method.name}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography variant="caption" sx={{ textTransform: 'uppercase', fontWeight: 'bold', color: 'text.secondary' }}>
+                  Ensaio
+                </Typography>
+                <Typography variant="body1" sx={{ fontWeight: 'medium', color: 'text.primary' }}>
+                  {assay.name}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography variant="caption" sx={{ textTransform: 'uppercase', fontWeight: 'bold', color: 'text.secondary' }}>
+                  Data
+                </Typography>
+                <Typography variant="body1" sx={{ fontWeight: 'medium', color: 'text.primary' }}>
                   {new Date().toLocaleDateString('pt-BR')}
-                </p>
-              </div>
-            </div>
-          </CardHeader>
+                </Typography>
+              </Grid>
+            </Grid>
+          </CardContent>
         </Card>
 
         {/* Informações do ensaio */}
-        <Card className="shadow-lg">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Settings className="w-5 h-5 text-primary" />
-              Detalhes do Ensaio
-            </CardTitle>
-          </CardHeader>
+        <Card sx={{ mb: 3, boxShadow: 2 }}>
           <CardContent>
-            <div className="space-y-4">
-              <div>
-                <label className="text-sm font-medium text-slate-500">Descrição</label>
-                <p className="text-slate-800">{assay.description}</p>
-              </div>
-              <div className="flex gap-6">
-                <div>
-                  <label className="text-sm font-medium text-slate-500">Status</label>
-                  <div className="mt-1">
-                    <Badge variant={assay.status === 'active' ? 'default' : 'secondary'}>
-                      {assay.status === 'active' ? 'Ativo' : 'Inativo'}
-                    </Badge>
-                  </div>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-slate-500">Última Análise</label>
-                  <p className="text-slate-800">
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+              <Settings color="primary" />
+              <Typography variant="h6" component="h2">
+                Detalhes do Ensaio
+              </Typography>
+            </Box>
+            
+            <Box sx={{ spacing: 2 }}>
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="body2" sx={{ fontWeight: 'medium', color: 'text.secondary' }}>
+                  Descrição
+                </Typography>
+                <Typography variant="body1" color="text.primary">
+                  {assay.description}
+                </Typography>
+              </Box>
+              
+              <Box sx={{ display: 'flex', gap: 6 }}>
+                <Box>
+                  <Typography variant="body2" sx={{ fontWeight: 'medium', color: 'text.secondary' }}>
+                    Status
+                  </Typography>
+                  <Box sx={{ mt: 0.5 }}>
+                    <Chip
+                      label={assay.status === 'active' ? 'Ativo' : 'Inativo'}
+                      color={assay.status === 'active' ? 'primary' : 'default'}
+                      size="small"
+                    />
+                  </Box>
+                </Box>
+                <Box>
+                  <Typography variant="body2" sx={{ fontWeight: 'medium', color: 'text.secondary' }}>
+                    Última Análise
+                  </Typography>
+                  <Typography variant="body1" color="text.primary">
                     {new Date(assay.lastAnalysis).toLocaleDateString('pt-BR')}
-                  </p>
-                </div>
-              </div>
-            </div>
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
           </CardContent>
         </Card>
 
         {/* Seções de dados organizadas */}
         {sections.map((section, sectionIndex) => (
-          <Card key={sectionIndex} className="shadow-lg section">
-            <div className={`${section.color} text-white text-center py-3 section-title rounded-t-lg`}>
-              <h3 className="font-bold text-sm">{section.title}</h3>
-            </div>
-            <CardContent className="p-0">
-              <Table className="data-table">
-                <TableHeader>
-                  <TableRow className="bg-slate-50">
-                    <TableHead className="text-center font-bold text-slate-700 border-r border-slate-300">
-                      Parâmetro
-                    </TableHead>
-                    <TableHead className="text-center font-bold text-slate-700 border-r border-slate-300">
-                      Unidade (CV)
-                    </TableHead>
-                    <TableHead className="text-center font-bold text-slate-700 border-r border-slate-300">
-                      Valor encontrado
-                    </TableHead>
-                    <TableHead className="text-center font-bold text-slate-700">
-                      Valor crítico (CV)
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {section.data.map((row, rowIndex) => (
-                    <TableRow key={rowIndex} className="hover:bg-slate-50">
-                      <TableCell className="text-center font-medium border-r border-slate-300">
-                        {row.parameter}
-                      </TableCell>
-                      <TableCell className="text-center border-r border-slate-300">
-                        {row.unit}
-                      </TableCell>
-                      <TableCell 
-                        className={`text-center font-medium border-r border-slate-300 ${
-                          row.highlight ? 'bg-green-100' : ''
-                        }`}
-                      >
-                        {row.value}
-                      </TableCell>
-                      <TableCell className="text-center text-sm">
+          <Paper key={sectionIndex} sx={{ mb: 3, overflow: 'hidden', boxShadow: 2 }}>
+            <Box
+              sx={{
+                bgcolor: section.color,
+                color: 'white',
+                textAlign: 'center',
+                py: 1.5
+              }}
+            >
+              <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                {section.title}
+              </Typography>
+            </Box>
+            
+            <Table>
+              <TableHead>
+                <TableRow sx={{ bgcolor: '#f5f5f5' }}>
+                  <TableCell align="center" sx={{ fontWeight: 'bold', borderRight: '1px solid #e0e0e0' }}>
+                    Parâmetro
+                  </TableCell>
+                  <TableCell align="center" sx={{ fontWeight: 'bold', borderRight: '1px solid #e0e0e0' }}>
+                    Unidade (CV)
+                  </TableCell>
+                  <TableCell align="center" sx={{ fontWeight: 'bold', borderRight: '1px solid #e0e0e0' }}>
+                    Valor encontrado
+                  </TableCell>
+                  <TableCell align="center" sx={{ fontWeight: 'bold' }}>
+                    Valor crítico (CV)
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {section.data.map((row, rowIndex) => (
+                  <TableRow key={rowIndex} sx={{ '&:hover': { bgcolor: '#f5f5f5' } }}>
+                    <TableCell 
+                      align="center" 
+                      sx={{ fontWeight: 'medium', borderRight: '1px solid #e0e0e0' }}
+                    >
+                      {row.parameter}
+                    </TableCell>
+                    <TableCell align="center" sx={{ borderRight: '1px solid #e0e0e0' }}>
+                      {row.unit}
+                    </TableCell>
+                    <TableCell 
+                      align="center" 
+                      sx={{ 
+                        fontWeight: 'medium', 
+                        borderRight: '1px solid #e0e0e0',
+                        bgcolor: row.highlight ? '#e8f5e8' : 'inherit'
+                      }}
+                    >
+                      {row.value}
+                    </TableCell>
+                    <TableCell align="center">
+                      <Typography variant="body2">
                         {row.critical}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Paper>
         ))}
 
         {/* Ferramentas utilizadas */}
-        <Card className="shadow-lg">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Settings className="w-5 h-5 text-primary" />
-              Ferramentas Utilizadas
-            </CardTitle>
-            <CardDescription>
+        <Card sx={{ mb: 3, boxShadow: 2 }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+              <Settings color="primary" />
+              <Typography variant="h6" component="h2">
+                Ferramentas Utilizadas
+              </Typography>
+            </Box>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
               Equipamentos e instrumentos utilizados na análise
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {assay.tools.map((tool, toolIndex) => (
-              <div key={toolIndex} className="border rounded-lg p-4 bg-slate-50">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <Settings className="w-4 h-4 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-slate-800">{tool.name}</h4>
-                    <p className="text-sm text-slate-600">{tool.type}</p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
-                  {Object.entries(tool.data).map(([key, value]) => (
-                    <div key={key} className="bg-white p-2 rounded border">
-                      <label className="text-xs text-slate-500 capitalize block">
-                        {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
-                      </label>
-                      <span className="font-medium text-slate-800">{String(value)}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
+            </Typography>
+            
+            <Box sx={{ spacing: 2 }}>
+              {assay.tools.map((tool, toolIndex) => (
+                <Paper key={toolIndex} sx={{ p: 2, mb: 2, bgcolor: '#f9f9f9', border: '1px solid #e0e0e0' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                    <Box 
+                      sx={{ 
+                        width: 32, 
+                        height: 32, 
+                        bgcolor: 'primary.light', 
+                        borderRadius: 2, 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center' 
+                      }}
+                    >
+                      <Settings fontSize="small" color="primary" />
+                    </Box>
+                    <Box>
+                      <Typography variant="subtitle1" sx={{ fontWeight: 'semibold' }}>
+                        {tool.name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {tool.type}
+                      </Typography>
+                    </Box>
+                  </Box>
+                  
+                  <Grid container spacing={1}>
+                    {Object.entries(tool.data).map(([key, value]) => (
+                      <Grid item xs={6} md={3} key={key}>
+                        <Paper sx={{ p: 1.5, bgcolor: 'white', border: '1px solid #e0e0e0' }}>
+                          <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary', textTransform: 'capitalize' }}>
+                            {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
+                          </Typography>
+                          <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                            {String(value)}
+                          </Typography>
+                        </Paper>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Paper>
+              ))}
+            </Box>
           </CardContent>
         </Card>
 
         {/* Observações e assinatura */}
-        <Card className="shadow-lg">
-          <CardHeader>
-            <CardTitle>Observações e Validação</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <label className="text-sm font-medium text-slate-500">Observações</label>
-              <p className="text-slate-800 mt-1">
-                Análise realizada conforme procedimento padrão ISO 17025. 
-                Todos os equipamentos calibrados e em condições normais de operação.
-                Os valores apresentados estão dentro dos limites aceitáveis de repetibilidade e precisão.
-              </p>
-            </div>
+        <Card sx={{ boxShadow: 2 }}>
+          <CardContent>
+            <Typography variant="h6" component="h2" sx={{ mb: 3 }}>
+              Observações e Validação
+            </Typography>
             
-            <div className="border-t pt-4 mt-6">
-              <div className="flex justify-between items-center">
-                <div>
-                  <p className="text-sm font-medium text-slate-500">Responsável Técnico</p>
-                  <p className="text-slate-800">Dr. João Silva - CRQ: 12345</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm text-slate-500">Data de emissão</p>
-                  <p className="text-slate-800">{new Date().toLocaleDateString('pt-BR')}</p>
-                </div>
-              </div>
-            </div>
+            <Box sx={{ spacing: 2 }}>
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="body2" sx={{ fontWeight: 'medium', color: 'text.secondary', mb: 1 }}>
+                  Observações
+                </Typography>
+                <Typography variant="body1" color="text.primary">
+                  Análise realizada conforme procedimento padrão ISO 17025. 
+                  Todos os equipamentos calibrados e em condições normais de operação.
+                  Os valores apresentados estão dentro dos limites aceitáveis de repetibilidade e precisão.
+                </Typography>
+              </Box>
+              
+              <Divider sx={{ my: 3 }} />
+              
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Box>
+                  <Typography variant="body2" sx={{ fontWeight: 'medium', color: 'text.secondary' }}>
+                    Responsável Técnico
+                  </Typography>
+                  <Typography variant="body1" color="text.primary">
+                    Dr. João Silva - CRQ: 12345
+                  </Typography>
+                </Box>
+                <Box sx={{ textAlign: 'right' }}>
+                  <Typography variant="body2" color="text.secondary">
+                    Data de emissão
+                  </Typography>
+                  <Typography variant="body1" color="text.primary">
+                    {new Date().toLocaleDateString('pt-BR')}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
           </CardContent>
         </Card>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
